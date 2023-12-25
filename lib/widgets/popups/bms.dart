@@ -43,7 +43,8 @@ void bmsBox({
             mainAxisSize: MainAxisSize.min,
             children: [
               BoxCon(
-                bSize: dSize.dMagnification * dSize.gridGap.toDouble(),
+                height: dSize.dMagnification * dSize.gridGap.toDouble(),
+                width: dSize.dMagnification * dSize.gridGap.toDouble(),
                 icon: getIcon(box.name),
               ),
               Container(
@@ -61,6 +62,8 @@ void bmsBox({
                               return "Size must be provided";
                             } else if (double.tryParse(value) == null) {
                               return "Invalid size";
+                            } else if (value == "1") {
+                              return "size must be >=2";
                             }
 
                             return null;
@@ -83,6 +86,8 @@ void bmsBox({
                               return "Size must be provided";
                             } else if (double.tryParse(value) == null) {
                               return "Invalid size";
+                            } else if (value == "1") {
+                              return "size must be >=2";
                             }
 
                             return null;
@@ -105,7 +110,6 @@ void bmsBox({
                   ElevatedButton(
                     onPressed: () {
                       if (!formKey.currentState!.validate()) return;
-
                       Navigator.pop(context);
 
                       cubit.updateBox(

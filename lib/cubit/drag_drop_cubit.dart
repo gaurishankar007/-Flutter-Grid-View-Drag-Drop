@@ -197,7 +197,7 @@ class DragDropCubit extends Cubit<DragDropState?> {
     double boxW = dSize.dMagnification * gridGap.toDouble();
 
     // Checking if the dragged widget touches the grid area or not
-    if (details.offset.dy + boxH - (boxH / 4) < topH) {
+    if (details.offset.dy + boxH - (boxH / 4) < topH + dSize.gridTM) {
       return;
     }
 

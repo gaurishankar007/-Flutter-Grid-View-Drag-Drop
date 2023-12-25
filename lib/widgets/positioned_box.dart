@@ -43,9 +43,21 @@ class PositionedBox extends StatelessWidget {
             boxIndex: boxIndex,
             details: details,
           ),
-          childWhenDragging: BoxCon(bSize: box.hm * gridGap, icon: getIcon(box.name)),
-          feedback: BoxCon(bSize: box.hm * gridGap, icon: getIcon(box.name)),
-          child: BoxCon(bSize: box.hm * gridGap, icon: getIcon(box.name)),
+          childWhenDragging: BoxCon(
+            height: box.hm * gridGap,
+            width: box.wm * gridGap,
+            icon: getIcon(box.name),
+          ),
+          feedback: BoxCon(
+            height: box.hm * gridGap,
+            width: box.wm * gridGap,
+            icon: getIcon(box.name),
+          ),
+          child: BoxCon(
+            height: box.hm * gridGap,
+            width: box.wm * gridGap,
+            icon: getIcon(box.name),
+          ),
         ),
       ),
     );

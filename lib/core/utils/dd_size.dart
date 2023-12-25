@@ -5,7 +5,7 @@ class DragDropSize {
   static final DragDropSize _singleton = DragDropSize._();
   factory DragDropSize() => _singleton;
 
-  final double appBarH = size.pSH(80);
+  final double appBarH = 60;
   final double upConH = size.pSH(130);
   final double gridTM = size.pSH(65);
   final int crossAxisCount = 25;

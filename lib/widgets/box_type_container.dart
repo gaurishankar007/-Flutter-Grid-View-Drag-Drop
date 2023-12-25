@@ -57,12 +57,13 @@ class BoxTypeContainer extends StatelessWidget {
                       delay: const Duration(milliseconds: 100),
                       onDragEnd: (DraggableDetails details) =>
                           cubit.addBox(sType: sType, details: details),
-                      childWhenDragging: BoxCon(icon: sType.icon, bSize: bSize),
+                      childWhenDragging: BoxCon(icon: sType.icon, height: bSize, width: bSize),
                       feedback: BoxCon(
                         icon: sType.icon,
-                        bSize: dSize.dMagnification * dSize.gridGap.toDouble(),
+                        height: dSize.dMagnification * dSize.gridGap.toDouble(),
+                        width: dSize.dMagnification * dSize.gridGap.toDouble(),
                       ),
-                      child: BoxCon(icon: sType.icon, bSize: bSize),
+                      child: BoxCon(icon: sType.icon, height: bSize, width: bSize),
                     ),
                   );
                 }),
