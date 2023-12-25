@@ -1,3 +1,5 @@
+import 'core/utils/dd_size.dart';
 import 'core/utils/screen_size.dart';
 
-final SizeConfig size = SizeConfig();
+final size = SizeConfig();
+final dSize = DragDropSize();

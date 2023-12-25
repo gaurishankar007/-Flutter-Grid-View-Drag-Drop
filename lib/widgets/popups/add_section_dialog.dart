@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../cubit/drag_drop_cubit.dart';
+import '../../cubit/drag_drop_cubit.dart';
 
 addSection(BuildContext context) {
   TextEditingController nameC = TextEditingController();
@@ -33,8 +33,7 @@ addSection(BuildContext context) {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.pop(builder);
-                    BlocProvider.of<DragDropCubit>(context)
-                        .addSection(nameC.text);
+                    BlocProvider.of<DragDropCubit>(context).addSection(nameC.text);
                   },
                   child: const Text("Save"),
                 ),
