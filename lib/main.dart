@@ -10,7 +10,7 @@ import 'screens/home.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  runApp(DragDropApp());
+  runApp(const DragDropApp());
 }
 
 class DragDropApp extends StatelessWidget {
@@ -30,7 +30,7 @@ class DragDropApp extends StatelessWidget {
             useMaterial3: false,
             scaffoldBackgroundColor: kWhite,
           ),
-          home: Home(),
+          home: const Home(),
         );
       }),
     );

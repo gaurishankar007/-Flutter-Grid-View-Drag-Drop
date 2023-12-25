@@ -17,7 +17,7 @@ class PopMenu extends StatelessWidget {
         return <PopupMenuItem<Function()>>[
           PopupMenuItem(
             value: () => addSection(context),
-            child: Text(
+            child: const Text(
               "Add Section",
               style: TextStyle(
                 fontSize: 18,
@@ -27,7 +27,7 @@ class PopMenu extends StatelessWidget {
           ),
           PopupMenuItem(
             value: () => cubit.clearData(),
-            child: Text(
+            child: const Text(
               "Reset",
               style: TextStyle(
                 fontSize: 18,

@@ -129,7 +129,7 @@ void bmsBox({
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red, foregroundColor: kWhite),
-                    child: Text("Delete"),
+                    child: const Text("Delete"),
                   ),
                 ],
               ),

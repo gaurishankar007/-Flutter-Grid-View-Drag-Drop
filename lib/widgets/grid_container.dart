@@ -11,23 +11,23 @@ import '../model/box_model.dart';
 import '../model/section_model.dart';
 
 class GridContainer extends StatelessWidget {
-  const GridContainer({super.key});
+  final int gridGap = dSize.gridGap;
+  final double height = dSize.mainAxisCount * dSize.gridGap.toDouble() + dSize.gridTM;
+  GridContainer({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DragDropCubit, DragDropState?>(
-      builder: (builder, state) {
-        if (state is DragDropState) {
-          double gridH = dSize.mainAxisCount * dSize.gridGap.toDouble();
-          int gridGap = dSize.gridGap;
-          List<SectionModel> sections = state.sections;
+    return SizedBox(
+      width: double.maxFinite,
+      height: height,
+      child: SingleChildScrollView(
+        controller: dSize.sController,
+        child: BlocBuilder<DragDropCubit, DragDropState?>(
+          builder: (builder, state) {
+            if (state is DragDropState) {
+              List<SectionModel> sections = state.sections;
 
-          return SizedBox(
-            width: double.maxFinite,
-            height: gridH + dSize.gridTM,
-            child: SingleChildScrollView(
-              controller: state.sController,
-              child: Column(
+              return Column(
                 children: List.generate(
                   sections.length,
                   (sectionIndex) {
@@ -79,13 +79,13 @@ class GridContainer extends StatelessWidget {
                     );
                   },
                 ),
-              ),
-            ),
-          );
-        }
+              );
+            }
 
-        return Center(child: CircularProgressIndicator());
-      },
+            return const Center(child: CircularProgressIndicator());
+          },
+        ),
+      ),
     );
   }
 }

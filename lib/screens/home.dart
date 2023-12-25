@@ -11,7 +11,7 @@ class Home extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kP.withOpacity(.5),
-        title: Text("Drag & Drop Grid View"),
+        title: const Text("Drag & Drop Grid View"),
       ),
       body: SafeArea(
         child: Center(
@@ -19,10 +19,10 @@ class Home extends StatelessWidget {
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (builder) => DragDrop(),
+                builder: (builder) => const DragDrop(),
               ),
             ),
-            child: Text("Open Drag & Drop"),
+            child: const Text("Open Drag & Drop"),
           ),
         ),
       ),

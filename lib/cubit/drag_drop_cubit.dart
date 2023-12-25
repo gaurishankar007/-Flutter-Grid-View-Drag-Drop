@@ -15,22 +15,21 @@ import '../model/section_model.dart';
 part 'drag_drop_state.dart';
 
 class DragDropCubit extends Cubit<DragDropState?> {
-  final ScrollController sController = ScrollController();
   List<SectionModel> sections = [];
   bool refresh = true;
 
+  late Box gridBox;
+  double gridWidth = 0;
+  double gridHeight = 0;
+  ScrollController get sController => dSize.sController;
   int get gridGap => dSize.gridGap;
   int get mainAxisCount => dSize.mainAxisCount;
   double get topH => size.sBarH + dSize.appBarH + dSize.upConH;
-  double gridWidth = 0;
-  double gridHeight = 0;
-  late Box gridBox;
 
   DragDropCubit() : super(null);
 
   DragDropState get _state => DragDropState(
         refresh: refresh,
-        sController: sController,
         sections: sections,
       );
 
@@ -204,7 +203,7 @@ class DragDropCubit extends Cubit<DragDropState?> {
     // Finding in which section the dragged widget appears in
     late int sectionIndex;
     double yOffset = details.offset.dy;
-    yOffset -= (topH);
+    yOffset -= topH;
     // Adding the scroll amount
     yOffset += sController.offset;
 

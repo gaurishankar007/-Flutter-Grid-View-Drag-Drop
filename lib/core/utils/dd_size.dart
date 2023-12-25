@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart' show ScrollController;
+
 import '../../injector.dart';
 
 class DragDropSize {
@@ -5,6 +7,7 @@ class DragDropSize {
   static final DragDropSize _singleton = DragDropSize._();
   factory DragDropSize() => _singleton;
 
+  final ScrollController sController = ScrollController();
   final double appBarH = 60;
   final double upConH = size.pSH(130);
   final double gridTM = size.pSH(65);

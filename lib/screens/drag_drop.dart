@@ -23,8 +23,8 @@ class DragDrop extends StatelessWidget {
       ),
       body: SafeArea(
         child: Column(
-          children: const [
-            BoxTypeContainer(),
+          children: [
+            const BoxTypeContainer(),
             GridContainer(),
           ],
         ),
