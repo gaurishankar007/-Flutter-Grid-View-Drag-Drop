@@ -1,4 +1,4 @@
-import 'package:drag_drop/injector.dart';
+import '../injector.dart';
 
 import '../core/constants/colors.dart';
 import '../widgets/popups/menu_button.dart';
@@ -16,15 +16,18 @@ class DragDrop extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size(double.maxFinite, dSize.appBarH),
         child: AppBar(
-          backgroundColor: kWhite,
+          backgroundColor: kP.withOpacity(.5),
+          elevation: 0,
           actions: const [PopMenu()],
         ),
       ),
-      body: Column(
-        children: const [
-          SeatTypeContainer(),
-          GridContainer(),
-        ],
+      body: SafeArea(
+        child: Column(
+          children: const [
+            BoxTypeContainer(),
+            GridContainer(),
+          ],
+        ),
       ),
     );
   }

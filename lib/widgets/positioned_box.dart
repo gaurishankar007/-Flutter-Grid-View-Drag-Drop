@@ -1,10 +1,11 @@
-import '../model/box_model.dart';
-import 'box_container.dart';
-import 'popups/bms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../core/constants/icons.dart';
 import '../cubit/drag_drop_cubit.dart';
+import '../model/box_model.dart';
+import 'box_container.dart';
+import 'popups/bms.dart';
 
 class PositionedBox extends StatelessWidget {
   final BoxModel box;
@@ -28,7 +29,7 @@ class PositionedBox extends StatelessWidget {
       left: box.coordinate.dx,
       top: box.coordinate.dy,
       child: GestureDetector(
-        onTap: () => bmsSeat(
+        onTap: () => bmsBox(
           mainContext: context,
           box: box,
           sectionIndex: sectionIndex,
@@ -37,14 +38,14 @@ class PositionedBox extends StatelessWidget {
         ),
         child: LongPressDraggable(
           delay: const Duration(milliseconds: 100),
-          onDragEnd: (DraggableDetails details) => cubit.updateSeatPosition(
+          onDragEnd: (DraggableDetails details) => cubit.updateBoxPosition(
             sectionIndex: sectionIndex,
             boxIndex: boxIndex,
             details: details,
           ),
-          childWhenDragging: BoxCon(bSize: box.hm * gridGap, icon: box.icon),
-          feedback: BoxCon(bSize: box.hm * gridGap, icon: box.icon),
-          child: BoxCon(bSize: box.hm * gridGap, icon: box.icon),
+          childWhenDragging: BoxCon(bSize: box.hm * gridGap, icon: getIcon(box.name)),
+          feedback: BoxCon(bSize: box.hm * gridGap, icon: getIcon(box.name)),
+          child: BoxCon(bSize: box.hm * gridGap, icon: getIcon(box.name)),
         ),
       ),
     );

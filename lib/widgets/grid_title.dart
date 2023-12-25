@@ -1,4 +1,4 @@
-import 'package:drag_drop/injector.dart';
+import '../injector.dart';
 
 import '../core/constants/colors.dart';
 import 'popups/edit_section_name_dialog.dart';

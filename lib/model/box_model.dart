@@ -1,12 +1,10 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 
 import 'coordinate_model.dart';
 
 class BoxModel extends Equatable {
   final int id;
   final String name;
-  final IconData icon;
   final double height;
   final double width;
   final int hm;
@@ -16,7 +14,6 @@ class BoxModel extends Equatable {
   const BoxModel({
     required this.id,
     required this.name,
-    required this.icon,
     required this.height,
     required this.width,
     this.hm = 4,
@@ -24,10 +21,28 @@ class BoxModel extends Equatable {
     required this.coordinate,
   });
 
+  BoxModel copyWith({
+    int? id,
+    String? name,
+    double? height,
+    double? width,
+    int? hm,
+    int? wm,
+    CoordinateModel? coordinate,
+  }) =>
+      BoxModel(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        height: height ?? this.height,
+        width: width ?? this.width,
+        hm: hm ?? this.hm,
+        wm: wm ?? this.wm,
+        coordinate: coordinate ?? this.coordinate,
+      );
+
   factory BoxModel.fromJson(Map<String, dynamic> json) => BoxModel(
         id: json["id"] as int,
         name: json["name"] as String,
-        icon: json["icon"] as IconData,
         height: json["height"] as double,
         width: json["width"] as double,
         hm: json["hm"] as int,
@@ -38,7 +53,6 @@ class BoxModel extends Equatable {
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "icon": icon,
         "height": height,
         "width": width,
         "hm": hm,
@@ -50,7 +64,6 @@ class BoxModel extends Equatable {
   List<Object?> get props => [
         id,
         name,
-        icon,
         height,
         width,
         hm,
@@ -64,7 +77,6 @@ class BoxModel extends Equatable {
       BoxModel(
         id: $id,
         name: "$name",
-        icon: "$icon",
         hm:$hm,
         wm:$wm,
         height:$height,

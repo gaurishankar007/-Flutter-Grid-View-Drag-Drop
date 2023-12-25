@@ -1,13 +1,11 @@
-import 'package:drag_drop/injector.dart';
-
-import 'core/constants/colors.dart';
-import 'screens/home.dart';
-import 'package:flutter/services.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-
-import 'cubit/drag_drop_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+import 'core/constants/colors.dart';
+import 'cubit/drag_drop_cubit.dart';
+import 'injector.dart';
+import 'screens/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,16 +26,10 @@ class DragDropApp extends StatelessWidget {
           title: 'DragDrop GridView',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: kP),
-              useMaterial3: true,
-              appBarTheme: AppBarTheme(
-                backgroundColor: kWhite,
-                systemOverlayStyle: SystemUiOverlayStyle(
-                  statusBarColor: kP.withOpacity(.1),
-                  statusBarIconBrightness: Brightness.dark,
-                  statusBarBrightness: Brightness.light,
-                ),
-              )),
+            colorScheme: ColorScheme.fromSeed(seedColor: kP),
+            useMaterial3: false,
+            scaffoldBackgroundColor: kWhite,
+          ),
           home: Home(),
         );
       }),

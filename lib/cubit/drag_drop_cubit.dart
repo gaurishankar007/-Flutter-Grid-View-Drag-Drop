@@ -7,9 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../injector.dart';
-import '../model/coordinate_model.dart';
 import '../model/box_model.dart';
 import '../model/box_type_model.dart';
+import '../model/coordinate_model.dart';
 import '../model/section_model.dart';
 
 part 'drag_drop_state.dart';
@@ -69,7 +69,7 @@ class DragDropCubit extends Cubit<DragDropState?> {
 
       for (int i = 0; i < sections.length; i++) {
         SectionModel sm = sections[i];
-        List<BoxModel> newSeats = sm.boxes;
+        List<BoxModel> newBoxes = sm.boxes;
         int newMAC = mainAxisCount;
         double newHeight = gridHeight;
 
@@ -80,7 +80,7 @@ class DragDropCubit extends Cubit<DragDropState?> {
 
         // Updating data for new screens
         if (prevGG != gridGap) {
-          newSeats = sm.boxes.map((box) {
+          newBoxes = sm.boxes.map((box) {
             // New Coordinate
             double nDx = (box.coordinate.dx / prevGG) * gridGap;
             double nDy = (box.coordinate.dy / prevGG) * gridGap;
@@ -92,7 +92,6 @@ class DragDropCubit extends Cubit<DragDropState?> {
             return BoxModel(
               id: box.id,
               name: box.name,
-              icon: box.icon,
               height: nH,
               width: nW,
               coordinate: CoordinateModel(dx: nDx, dy: nDy),
@@ -103,7 +102,7 @@ class DragDropCubit extends Cubit<DragDropState?> {
         newSections.add(
           SectionModel(
             name: sm.name,
-            boxes: newSeats,
+            boxes: newBoxes,
             mainAxisCount: newMAC,
             height: newHeight,
           ),
@@ -137,8 +136,8 @@ class DragDropCubit extends Cubit<DragDropState?> {
 
     emit(_state);
 
-    // gridBox.clear();
-    // await gridBox.put("gridGap", gridGap);
+    gridBox.clear();
+    await gridBox.put("gridGap", gridGap);
   }
 
   addSection(String name) async {
@@ -150,46 +149,46 @@ class DragDropCubit extends Cubit<DragDropState?> {
     ));
     _uState();
 
-    // await gridBox.put(
-    //   "sections",
-    //   jsonEncode(sections.map((e) => e.toJson()).toList()),
-    // );
+    await gridBox.put(
+      "sections",
+      jsonEncode(sections.map((e) => e.toJson()).toList()),
+    );
   }
 
   deleteSection(int index) async {
     sections.removeAt(index);
     _uState();
 
-    // await gridBox.put(
-    //   "sections",
-    //   jsonEncode(sections.map((e) => e.toJson()).toList()),
-    // );
+    await gridBox.put(
+      "sections",
+      jsonEncode(sections.map((e) => e.toJson()).toList()),
+    );
   }
 
   editSectionName({required int sectionIndex, required String newName}) async {
     sections[sectionIndex].name = newName;
     _uState();
 
-    // await gridBox.put(
-    //   "sections",
-    //   jsonEncode(sections.map((e) => e.toJson()).toList()),
-    // );
+    await gridBox.put(
+      "sections",
+      jsonEncode(sections.map((e) => e.toJson()).toList()),
+    );
   }
 
-  removeSeat({
+  removeBox({
     required int sectionIndex,
     required int boxIndex,
   }) async {
     sections[sectionIndex].boxes.removeAt(boxIndex);
     _uState();
 
-    // await gridBox.put(
-    //   "sections",
-    //   jsonEncode(sections.map((e) => e.toJson()).toList()),
-    // );
+    await gridBox.put(
+      "sections",
+      jsonEncode(sections.map((e) => e.toJson()).toList()),
+    );
   }
 
-  addSeat({
+  addBox({
     required BoxTypeModel sType,
     required DraggableDetails details,
   }) async {
@@ -264,26 +263,25 @@ class DragDropCubit extends Cubit<DragDropState?> {
       sections[sectionIndex].height += gridGap;
     }
 
-    List<BoxModel> seatModels = sections[sectionIndex].boxes.toList();
-    seatModels.add(BoxModel(
+    List<BoxModel> boxModels = sections[sectionIndex].boxes.toList();
+    boxModels.add(BoxModel(
       id: section.boxes.length + 1,
       name: sType.name,
-      icon: sType.icon,
       height: boxH,
       width: boxW,
       coordinate: CoordinateModel(dx: left, dy: top),
     ));
-    sections[sectionIndex].boxes = seatModels;
+    sections[sectionIndex].boxes = boxModels;
 
     _uState();
 
-    // await gridBox.put(
-    //   "sections",
-    //   jsonEncode(sections.map((e) => e.toJson()).toList()),
-    // );
+    await gridBox.put(
+      "sections",
+      jsonEncode(sections.map((e) => e.toJson()).toList()),
+    );
   }
 
-  updateSeatPosition({
+  updateBoxPosition({
     required int sectionIndex,
     required int boxIndex,
     required DraggableDetails details,
@@ -363,28 +361,19 @@ class DragDropCubit extends Cubit<DragDropState?> {
       sections[sectionIndex].height += gridGap;
     }
 
-    List<BoxModel> seatModels = sections[sectionIndex].boxes.toList();
-    seatModels[boxIndex] = BoxModel(
-      id: box.id,
-      name: box.name,
-      icon: box.icon,
-      height: box.height,
-      width: box.width,
-      hm: box.hm,
-      wm: box.hm,
-      coordinate: CoordinateModel(dx: left, dy: top),
-    );
-    sections[sectionIndex].boxes = seatModels;
+    List<BoxModel> boxModels = sections[sectionIndex].boxes.toList();
+    boxModels[boxIndex] = box.copyWith(coordinate: CoordinateModel(dx: left, dy: top));
+    sections[sectionIndex].boxes = boxModels;
 
     _uState();
 
-    // await gridBox.put(
-    //   "sections",
-    //   jsonEncode(sections.map((e) => e.toJson()).toList()),
-    // );
+    await gridBox.put(
+      "sections",
+      jsonEncode(sections.map((e) => e.toJson()).toList()),
+    );
   }
 
-  updateSeat({
+  updateBox({
     required int sectionIndex,
     required int boxIndex,
     required BoxModel box,
@@ -437,18 +426,19 @@ class DragDropCubit extends Cubit<DragDropState?> {
       wm = newWM;
     }
 
-    List<BoxModel> seatModels = sections[sectionIndex].boxes.toList();
-    seatModels[boxIndex] = BoxModel(
-      id: box.id,
-      name: box.name,
-      icon: box.icon,
+    List<BoxModel> boxes = sections[sectionIndex].boxes.toList();
+    boxes[boxIndex] = box.copyWith(
       height: h,
       width: w,
       hm: hm,
       wm: wm,
-      coordinate: box.coordinate,
     );
-    sections[sectionIndex].boxes = seatModels;
+    sections[sectionIndex].boxes = boxes;
     _uState();
+
+    await gridBox.put(
+      "sections",
+      jsonEncode(sections.map((e) => e.toJson()).toList()),
+    );
   }
 }

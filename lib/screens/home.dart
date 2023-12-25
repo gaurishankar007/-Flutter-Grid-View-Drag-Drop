@@ -1,5 +1,7 @@
-import 'drag_drop.dart';
+import '../core/constants/colors.dart';
 import 'package:flutter/material.dart';
+
+import 'drag_drop.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -7,6 +9,10 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: kP.withOpacity(.5),
+        title: Text("Drag & Drop Grid View"),
+      ),
       body: SafeArea(
         child: Center(
           child: ElevatedButton(

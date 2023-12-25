@@ -1,4 +1,4 @@
-import 'package:drag_drop/injector.dart';
+import '../injector.dart';
 
 import 'grid_title.dart';
 import 'positioned_box.dart';

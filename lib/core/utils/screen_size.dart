@@ -1,4 +1,4 @@
-import 'package:drag_drop/injector.dart';
+import '../../injector.dart';
 import 'package:flutter/widgets.dart';
 
 class SizeConfig {

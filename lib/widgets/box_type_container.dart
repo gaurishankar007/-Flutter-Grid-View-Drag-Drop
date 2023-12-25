@@ -1,3 +1,5 @@
+import '../core/constants/colors.dart';
+
 import '../injector.dart';
 import 'box_container.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/drag_drop_cubit.dart';
 import '../model/box_type_model.dart';
 
-class SeatTypeContainer extends StatelessWidget {
+class BoxTypeContainer extends StatelessWidget {
   final List<BoxTypeModel> sTypes = const [
     BoxTypeModel(name: "Rectangle", icon: Icons.rectangle_outlined),
     BoxTypeModel(name: "Circle", icon: Icons.circle_outlined),
@@ -13,7 +15,7 @@ class SeatTypeContainer extends StatelessWidget {
     BoxTypeModel(name: "Check", icon: Icons.check),
   ];
 
-  const SeatTypeContainer({super.key});
+  const BoxTypeContainer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +28,20 @@ class SeatTypeContainer extends StatelessWidget {
           margin: EdgeInsets.symmetric(horizontal: dSize.paddingH),
           height: dSize.upConH,
           width: double.maxFinite,
+          alignment: Alignment.center,
           child: Container(
-            margin: EdgeInsets.only(bottom: size.pSH(20)),
-            padding: EdgeInsets.symmetric(horizontal: size.pSH(20)), // From Calculation
+            width: double.maxFinite,
+            padding: EdgeInsets.all(size.pSH(20)), // From Calculation
             decoration: BoxDecoration(
-              color: Colors.amber,
+              color: kWhite,
               borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(.05),
+                  spreadRadius: 2,
+                  blurRadius: 3,
+                )
+              ],
             ),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -46,7 +56,7 @@ class SeatTypeContainer extends StatelessWidget {
                     child: LongPressDraggable(
                       delay: const Duration(milliseconds: 100),
                       onDragEnd: (DraggableDetails details) =>
-                          cubit.addSeat(sType: sType, details: details),
+                          cubit.addBox(sType: sType, details: details),
                       childWhenDragging: BoxCon(icon: sType.icon, bSize: bSize),
                       feedback: BoxCon(
                         icon: sType.icon,

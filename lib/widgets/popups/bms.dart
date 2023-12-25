@@ -1,6 +1,7 @@
-import 'package:drag_drop/core/constants/colors.dart';
-import 'package:drag_drop/injector.dart';
-import 'package:drag_drop/widgets/box_container.dart';
+import '../../core/constants/colors.dart';
+import '../../core/constants/icons.dart';
+import '../../injector.dart';
+import '../box_container.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../cubit/drag_drop_cubit.dart';
 import '../../model/box_model.dart';
 
-void bmsSeat({
+void bmsBox({
   required BuildContext mainContext,
   required BoxModel box,
   required int sectionIndex,
@@ -43,7 +44,7 @@ void bmsSeat({
             children: [
               BoxCon(
                 bSize: dSize.dMagnification * dSize.gridGap.toDouble(),
-                icon: box.icon,
+                icon: getIcon(box.name),
               ),
               Container(
                 margin: EdgeInsets.only(top: size.pSH(30), bottom: size.pSH(15)),
@@ -61,7 +62,7 @@ void bmsSeat({
                             } else if (double.tryParse(value) == null) {
                               return "Invalid size";
                             }
-          
+
                             return null;
                           },
                           decoration: const InputDecoration(
@@ -83,7 +84,7 @@ void bmsSeat({
                             } else if (double.tryParse(value) == null) {
                               return "Invalid size";
                             }
-          
+
                             return null;
                           },
                           decoration: const InputDecoration(
@@ -104,24 +105,13 @@ void bmsSeat({
                   ElevatedButton(
                     onPressed: () {
                       if (!formKey.currentState!.validate()) return;
-          
+
                       Navigator.pop(context);
-          
-                      BoxModel newSeat = BoxModel(
-                        id: box.id,
-                        name: box.name,
-                        icon: box.icon,
-                        height: box.height,
-                        width: box.width,
-                        hm: box.hm,
-                        wm: box.wm,
-                        coordinate: box.coordinate,
-                      );
-          
-                      cubit.updateSeat(
+
+                      cubit.updateBox(
                         sectionIndex: sectionIndex,
                         boxIndex: boxIndex,
-                        box: newSeat,
+                        box: box,
                         newHM: int.parse(sH.text),
                         newWM: int.parse(sW.text),
                       );
@@ -131,7 +121,7 @@ void bmsSeat({
                   ElevatedButton(
                     onPressed: () {
                       Navigator.pop(context);
-                      cubit.removeSeat(sectionIndex: sectionIndex, boxIndex: boxIndex);
+                      cubit.removeBox(sectionIndex: sectionIndex, boxIndex: boxIndex);
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red, foregroundColor: kWhite),

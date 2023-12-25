@@ -6,8 +6,8 @@ class DragDropSize {
   factory DragDropSize() => _singleton;
 
   final double appBarH = size.pSH(80);
-  final double upConH = size.pSH(120);
-  final double gridTM = size.pSH(70);
+  final double upConH = size.pSH(130);
+  final double gridTM = size.pSH(65);
   final int crossAxisCount = 25;
   final int dMagnification = 4;
   double paddingH = size.pSW(16);
