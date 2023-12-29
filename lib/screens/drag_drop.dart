@@ -16,6 +16,7 @@ class DragDrop extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size(double.maxFinite, dSize.appBarH),
         child: AppBar(
+          title: const Text("Drag & Drop Grid View"),
           backgroundColor: kP.withOpacity(.5),
           elevation: 0,
           actions: const [PopMenu()],

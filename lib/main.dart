@@ -1,3 +1,4 @@
+import 'package:drag_drop/screens/drag_drop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -5,7 +6,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'core/constants/colors.dart';
 import 'cubit/drag_drop_cubit.dart';
 import 'injector.dart';
-import 'screens/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,7 +13,7 @@ void main() async {
   runApp(const DragDropApp());
 }
 
-class DragDropApp extends StatelessWidget {
+class DragDropApp extends StatelessWidget { 
   const DragDropApp({super.key});
 
   @override
@@ -30,7 +30,7 @@ class DragDropApp extends StatelessWidget {
             useMaterial3: false,
             scaffoldBackgroundColor: kWhite,
           ),
-          home: const Home(),
+          home: const DragDrop(),
         );
       }),
     );

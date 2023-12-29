@@ -9,8 +9,8 @@ class DragDropSize {
 
   final ScrollController sController = ScrollController();
   final double appBarH = 60;
-  final double upConH = size.pSH(130);
-  final double gridTM = size.pSH(65);
+  final double upConH = size.pSH(100);
+  final double gridTM = 50;
   final int crossAxisCount = 25;
   final int dMagnification = 4;
   double paddingH = size.pSW(16);

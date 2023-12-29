@@ -36,6 +36,10 @@ class DragDropCubit extends Cubit<DragDropState?> {
   _uState() {
     refresh = !refresh;
     emit(_state);
+    gridBox.put(
+      "sections",
+      jsonEncode(sections.map((e) => e.toJson()).toList()),
+    );
   }
 
   init() async {
@@ -62,7 +66,8 @@ class DragDropCubit extends Cubit<DragDropState?> {
     }
 
     if (sectionData != null) {
-      sections = (jsonDecode(sectionData) as List).map((e) => SectionModel.fromJson(e)).toList();
+      List data = jsonDecode(sectionData);
+      sections = data.map((e) => SectionModel.fromJson(e)).toList();
 
       List<SectionModel> newSections = [];
 
@@ -109,18 +114,14 @@ class DragDropCubit extends Cubit<DragDropState?> {
       }
 
       sections = newSections;
-
       await gridBox.put(
         "sections",
         jsonEncode(sections.map((e) => e.toJson()).toList()),
       );
+      emit(_state);
     }
 
-    emit(_state);
-
-    if (gridGap != prevGG) {
-      await gridBox.put("gridGap", gridGap);
-    }
+    if (gridGap != prevGG) gridBox.put("gridGap", gridGap);
   }
 
   clearData() async {
@@ -147,50 +148,24 @@ class DragDropCubit extends Cubit<DragDropState?> {
       height: gridHeight,
     ));
     _uState();
-
-    await gridBox.put(
-      "sections",
-      jsonEncode(sections.map((e) => e.toJson()).toList()),
-    );
   }
 
   deleteSection(int index) async {
     sections.removeAt(index);
     _uState();
-
-    await gridBox.put(
-      "sections",
-      jsonEncode(sections.map((e) => e.toJson()).toList()),
-    );
   }
 
   editSectionName({required int sectionIndex, required String newName}) async {
     sections[sectionIndex].name = newName;
     _uState();
-
-    await gridBox.put(
-      "sections",
-      jsonEncode(sections.map((e) => e.toJson()).toList()),
-    );
   }
 
-  removeBox({
-    required int sectionIndex,
-    required int boxIndex,
-  }) async {
+  removeBox({required int sectionIndex, boxIndex}) async {
     sections[sectionIndex].boxes.removeAt(boxIndex);
     _uState();
-
-    await gridBox.put(
-      "sections",
-      jsonEncode(sections.map((e) => e.toJson()).toList()),
-    );
   }
 
-  addBox({
-    required BoxTypeModel sType,
-    required DraggableDetails details,
-  }) async {
+  addBox({required BoxTypeModel sType, required DraggableDetails details}) async {
     // Determining box size
     double boxH = dSize.dMagnification * gridGap.toDouble();
     double boxW = dSize.dMagnification * gridGap.toDouble();
@@ -250,8 +225,8 @@ class DragDropCubit extends Cubit<DragDropState?> {
       double h = section.boxes[i].height;
       double w = section.boxes[i].width;
 
-      bool xExist = cn.dx <= left && left < cn.dx + w || left <= cn.dx && cn.dx < left + boxW;
-      bool yExist = cn.dy <= top && top < cn.dy + h || top <= cn.dy && cn.dy < top + boxH;
+      bool xExist = (cn.dx <= left && left < cn.dx + w) || (left <= cn.dx && cn.dx < left + boxW);
+      bool yExist = (cn.dy <= top && top < cn.dy + h) || (top <= cn.dy && cn.dy < top + boxH);
 
       if (xExist && yExist) return;
     }
@@ -262,22 +237,16 @@ class DragDropCubit extends Cubit<DragDropState?> {
       sections[sectionIndex].height += gridGap;
     }
 
-    List<BoxModel> boxModels = sections[sectionIndex].boxes.toList();
-    boxModels.add(BoxModel(
+    final box = BoxModel(
       id: section.boxes.length + 1,
       name: sType.name,
       height: boxH,
       width: boxW,
       coordinate: CoordinateModel(dx: left, dy: top),
-    ));
-    sections[sectionIndex].boxes = boxModels;
+    );
+    sections[sectionIndex].boxes.add(box);
 
     _uState();
-
-    await gridBox.put(
-      "sections",
-      jsonEncode(sections.map((e) => e.toJson()).toList()),
-    );
   }
 
   updateBoxPosition({
@@ -316,10 +285,10 @@ class DragDropCubit extends Cubit<DragDropState?> {
           left = left - (left % gridGap);
         }
       } else {
-        if ((left + box.width) % gridGap >= gridGap / 2) {
-          left = left - ((left + box.width) % gridGap) + gridGap;
+        if ((left - prevLeft) % gridGap >= gridGap / 2) {
+          left = left - (left % gridGap) + gridGap;
         } else {
-          left = left - ((left + box.width) % gridGap);
+          left = left - (left % gridGap);
         }
       }
     }
@@ -332,10 +301,10 @@ class DragDropCubit extends Cubit<DragDropState?> {
           top = top - (top % gridGap);
         }
       } else {
-        if ((top + box.height) % gridGap >= gridGap / 2) {
-          top = top - ((top + box.height) % gridGap) + gridGap;
+        if ((top - prevTop) % gridGap >= gridGap / 2) {
+          top = top - (top % gridGap) + gridGap;
         } else {
-          top = top - ((top + box.height) % gridGap);
+          top = top - (top % gridGap);
         }
       }
     }
@@ -348,8 +317,9 @@ class DragDropCubit extends Cubit<DragDropState?> {
       // Not checking with the same widget
       if (section.boxes[i].id != box.id) {
         bool xExist =
-            cn.dx <= left && left < cn.dx + w || left <= cn.dx && cn.dx < left + box.width;
-        bool yExist = cn.dy <= top && top < cn.dy + h || top <= cn.dy && cn.dy < top + box.height;
+            (cn.dx <= left && left < cn.dx + w) || (left <= cn.dx && cn.dx < left + box.width);
+        bool yExist =
+            (cn.dy <= top && top < cn.dy + h) || (top <= cn.dy && cn.dy < top + box.height);
 
         if (xExist && yExist) return;
       }
@@ -360,25 +330,13 @@ class DragDropCubit extends Cubit<DragDropState?> {
       sections[sectionIndex].height += gridGap;
     }
 
-    List<BoxModel> boxModels = sections[sectionIndex].boxes.toList();
-    boxModels[boxIndex] = box.copyWith(coordinate: CoordinateModel(dx: left, dy: top));
-    sections[sectionIndex].boxes = boxModels;
+    sections[sectionIndex].boxes[boxIndex] =
+        box.copyWith(coordinate: CoordinateModel(dx: left, dy: top));
 
     _uState();
-
-    await gridBox.put(
-      "sections",
-      jsonEncode(sections.map((e) => e.toJson()).toList()),
-    );
   }
 
-  updateBox({
-    required int sectionIndex,
-    required int boxIndex,
-    required BoxModel box,
-    required int newHM,
-    required int newWM,
-  }) async {
+  updateBox({required int sectionIndex, boxIndex, newHM, newWM, required BoxModel box}) async {
     SectionModel section = sections[sectionIndex];
     bool overlap = false;
 
@@ -396,8 +354,9 @@ class DragDropCubit extends Cubit<DragDropState?> {
         double w = section.boxes[i].width;
 
         if (cn.dx != left || cn.dy != top) {
-          bool xExist = cn.dx <= left && left < cn.dx + w || left <= cn.dx && cn.dx < left + boxW;
-          bool yExist = cn.dy <= top && top < cn.dy + h || top <= cn.dy && cn.dy < top + boxH;
+          bool xExist =
+              (cn.dx <= left && left < cn.dx + w) || (left <= cn.dx && cn.dx < left + boxW);
+          bool yExist = (cn.dy <= top && top < cn.dy + h) || (top <= cn.dy && cn.dy < top + boxH);
 
           if (xExist && yExist) {
             overlap = true;
@@ -425,19 +384,7 @@ class DragDropCubit extends Cubit<DragDropState?> {
       wm = newWM;
     }
 
-    List<BoxModel> boxes = sections[sectionIndex].boxes.toList();
-    boxes[boxIndex] = box.copyWith(
-      height: h,
-      width: w,
-      hm: hm,
-      wm: wm,
-    );
-    sections[sectionIndex].boxes = boxes;
+    sections[sectionIndex].boxes[boxIndex] = box.copyWith(height: h, width: w, hm: hm, wm: wm);
     _uState();
-
-    await gridBox.put(
-      "sections",
-      jsonEncode(sections.map((e) => e.toJson()).toList()),
-    );
   }
 }

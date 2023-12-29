@@ -21,57 +21,52 @@ class BoxTypeContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<DragDropCubit>(context);
 
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: dSize.paddingH),
-          height: dSize.upConH,
-          width: double.maxFinite,
-          alignment: Alignment.center,
-          child: Container(
-            width: double.maxFinite,
-            padding: EdgeInsets.all(size.pSH(20)), // From Calculation
-            decoration: BoxDecoration(
-              color: kWhite,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(.05),
-                  spreadRadius: 2,
-                  blurRadius: 3,
-                )
-              ],
-            ),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(sTypes.length, (index) {
-                  BoxTypeModel sType = sTypes[index];
-                  double bSize = size.pSH(60);
-                  bool givePad = index != sTypes.length - 1;
-
-                  return Container(
-                    padding: givePad ? EdgeInsets.only(right: size.pSW(20)) : null,
-                    child: LongPressDraggable(
-                      delay: const Duration(milliseconds: 100),
-                      onDragEnd: (DraggableDetails details) =>
-                          cubit.addBox(sType: sType, details: details),
-                      childWhenDragging: BoxCon(icon: sType.icon, height: bSize, width: bSize),
-                      feedback: BoxCon(
-                        icon: sType.icon,
-                        height: dSize.dMagnification * dSize.gridGap.toDouble(),
-                        width: dSize.dMagnification * dSize.gridGap.toDouble(),
-                      ),
-                      child: BoxCon(icon: sType.icon, height: bSize, width: bSize),
-                    ),
-                  );
-                }),
-              ),
-            ),
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: dSize.paddingH),
+      height: dSize.upConH,
+      width: double.maxFinite,
+      child: Container(
+        width: double.maxFinite,
+        margin: EdgeInsets.only(top: size.pSH(15)),
+        padding: EdgeInsets.all(size.pSH(12.5)), // From Calculation
+        decoration: BoxDecoration(
+          color: kWhite,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(.05),
+              spreadRadius: 2,
+              blurRadius: 3,
+            )
+          ],
+        ),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: List.generate(sTypes.length, (index) {
+              BoxTypeModel sType = sTypes[index];
+              double bSize = size.pSH(60);
+              bool givePad = index != sTypes.length - 1;
+    
+              return Container(
+                padding: givePad ? EdgeInsets.only(right: size.pSW(20)) : null,
+                child: LongPressDraggable(
+                  delay: const Duration(milliseconds: 100),
+                  onDragEnd: (DraggableDetails details) =>
+                      cubit.addBox(sType: sType, details: details),
+                  childWhenDragging: BoxCon(icon: sType.icon, height: bSize, width: bSize),
+                  feedback: BoxCon(
+                    icon: sType.icon,
+                    height: dSize.dMagnification * dSize.gridGap.toDouble(),
+                    width: dSize.dMagnification * dSize.gridGap.toDouble(),
+                  ),
+                  child: BoxCon(icon: sType.icon, height: bSize, width: bSize),
+                ),
+              );
+            }),
           ),
         ),
-      ],
+      ),
     );
   }
 }
