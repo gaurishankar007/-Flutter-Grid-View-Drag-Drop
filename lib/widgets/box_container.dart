@@ -25,7 +25,7 @@ class BoxCon extends StatelessWidget {
       width: width,
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-        color: kP.withOpacity(.8),
+        color: kP,
         borderRadius: BorderRadius.circular(5),
         boxShadow: [
           BoxShadow(

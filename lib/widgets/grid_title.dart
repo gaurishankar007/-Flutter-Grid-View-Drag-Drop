@@ -22,44 +22,66 @@ class GridTitle extends StatelessWidget {
 
     return Container(
       height: dSize.gridTM,
-      padding: EdgeInsets.only(left: dSize.paddingH, right: dSize.paddingH, bottom: 5),
+      margin: EdgeInsets.only(left: dSize.paddingH, right: dSize.paddingH, bottom: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(name, style: const TextStyle(fontSize: 18)),
-              const SizedBox(width: 10),
-              GestureDetector(
-                onTap: () => editSectionName(
-                  context: context,
-                  sectionIndex: sectionIndex,
-                  name: name,
-                ),
-                child: Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(shape: BoxShape.circle, color: kP.withOpacity(.2)),
-                  child: const Icon(Icons.edit, color: kP, size: 15),
-                ),
-              ),
-            ],
-          ),
-          if (sectionIndex != 0)
-            GestureDetector(
-              onTap: () => cubit.deleteSection(sectionIndex),
-              child: Container(
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.red.withOpacity(.2),
-                ),
-                child: const Icon(Icons.delete, color: Colors.red, size: 15),
-              ),
+          Expanded(
+            child: Container(
+              width: double.maxFinite,
+              margin: EdgeInsets.only(right: size.pSW(10)),
+              child: Text(name, style: const TextStyle(fontSize: 18)),
             ),
+          ),
+          PopupMenuButton(
+            onSelected: (func) => func(),
+            child: const Icon(Icons.more_vert_rounded, color: kP, size: 22),
+            itemBuilder: (context) {
+              return <PopupMenuItem<Function()>>[
+                PopupMenuItem(
+                  value: () => editSectionName(
+                    context: context,
+                    sectionIndex: sectionIndex,
+                    name: name,
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.edit, color: kP, size: 20),
+                      SizedBox(width: size.pSW(10)),
+                      const Text(
+                        "Edit Name",
+                        style: TextStyle(
+                          color: kP,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (sectionIndex != 0)
+                  PopupMenuItem(
+                    value: () => cubit.deleteSection(sectionIndex),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.delete, color: Colors.red, size: 20),
+                        SizedBox(width: size.pSW(10)),
+                        const Text(
+                          "Delete Section",
+                          style: TextStyle(
+                            color: kRed,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+              ];
+            },
+          ),
         ],
       ),
     );

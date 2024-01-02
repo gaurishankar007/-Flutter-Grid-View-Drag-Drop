@@ -1,6 +1,5 @@
 import '../injector.dart';
 
-import '../core/constants/colors.dart';
 import '../widgets/popups/menu_button.dart';
 import 'package:flutter/material.dart';
 import '../widgets/grid_container.dart';
@@ -17,7 +16,6 @@ class DragDrop extends StatelessWidget {
         preferredSize: Size(double.maxFinite, dSize.appBarH),
         child: AppBar(
           title: const Text("Drag & Drop Grid View"),
-          backgroundColor: kP.withOpacity(.5),
           elevation: 0,
           actions: const [PopMenu()],
         ),
