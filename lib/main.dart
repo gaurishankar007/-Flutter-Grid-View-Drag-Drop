@@ -1,4 +1,3 @@
-import 'package:drag_drop/screens/drag_drop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -6,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'core/constants/colors.dart';
 import 'cubit/drag_drop_cubit.dart';
 import 'injector.dart';
+import 'screens/drag_drop.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +23,7 @@ class DragDropApp extends StatelessWidget {
       child: LayoutBuilder(builder: (context, layout) {
         size.init(layout, context);
         return MaterialApp(
-          title: 'DragDrop GridView',
+          title: 'DragDrop GridView System',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: kP),

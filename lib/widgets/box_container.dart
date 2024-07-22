@@ -1,7 +1,7 @@
-import 'package:drag_drop/injector.dart';
 import 'package:flutter/material.dart';
 
 import '../core/constants/colors.dart';
+import '../injector.dart';
 
 class BoxCon extends StatelessWidget {
   final double height;
@@ -18,7 +18,9 @@ class BoxCon extends StatelessWidget {
   Widget build(BuildContext context) {
     double iconSize = 30;
 
-    if (height / dSize.gridGap <= 2 || width / dSize.gridGap <= 2) iconSize = 20;
+    if (height / dSize.gridGap <= 2 || width / dSize.gridGap <= 2) {
+      iconSize = 20;
+    }
 
     return Container(
       height: height,

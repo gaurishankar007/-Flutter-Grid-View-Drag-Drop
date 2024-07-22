@@ -165,7 +165,8 @@ class DragDropCubit extends Cubit<DragDropState?> {
     _uState();
   }
 
-  addBox({required BoxTypeModel sType, required DraggableDetails details}) async {
+  addBox(
+      {required BoxTypeModel sType, required DraggableDetails details}) async {
     // Determining box size
     double boxH = dSize.dMagnification * gridGap.toDouble();
     double boxW = dSize.dMagnification * gridGap.toDouble();
@@ -225,8 +226,10 @@ class DragDropCubit extends Cubit<DragDropState?> {
       double h = section.boxes[i].height;
       double w = section.boxes[i].width;
 
-      bool xExist = (cn.dx <= left && left < cn.dx + w) || (left <= cn.dx && cn.dx < left + boxW);
-      bool yExist = (cn.dy <= top && top < cn.dy + h) || (top <= cn.dy && cn.dy < top + boxH);
+      bool xExist = (cn.dx <= left && left < cn.dx + w) ||
+          (left <= cn.dx && cn.dx < left + boxW);
+      bool yExist = (cn.dy <= top && top < cn.dy + h) ||
+          (top <= cn.dy && cn.dy < top + boxH);
 
       if (xExist && yExist) return;
     }
@@ -244,7 +247,9 @@ class DragDropCubit extends Cubit<DragDropState?> {
       width: boxW,
       coordinate: CoordinateModel(dx: left, dy: top),
     );
-    sections[sectionIndex].boxes.add(box);
+    sections[sectionIndex] = sections[sectionIndex].copyWith(
+      boxes: [...sections[sectionIndex].boxes, box],
+    );
 
     _uState();
   }
@@ -316,10 +321,10 @@ class DragDropCubit extends Cubit<DragDropState?> {
 
       // Not checking with the same widget
       if (section.boxes[i].id != box.id) {
-        bool xExist =
-            (cn.dx <= left && left < cn.dx + w) || (left <= cn.dx && cn.dx < left + box.width);
-        bool yExist =
-            (cn.dy <= top && top < cn.dy + h) || (top <= cn.dy && cn.dy < top + box.height);
+        bool xExist = (cn.dx <= left && left < cn.dx + w) ||
+            (left <= cn.dx && cn.dx < left + box.width);
+        bool yExist = (cn.dy <= top && top < cn.dy + h) ||
+            (top <= cn.dy && cn.dy < top + box.height);
 
         if (xExist && yExist) return;
       }
@@ -336,7 +341,12 @@ class DragDropCubit extends Cubit<DragDropState?> {
     _uState();
   }
 
-  updateBox({required int sectionIndex, boxIndex, newHM, newWM, required BoxModel box}) async {
+  updateBox(
+      {required int sectionIndex,
+      boxIndex,
+      newHM,
+      newWM,
+      required BoxModel box}) async {
     SectionModel section = sections[sectionIndex];
     bool overlap = false;
 
@@ -354,9 +364,10 @@ class DragDropCubit extends Cubit<DragDropState?> {
         double w = section.boxes[i].width;
 
         if (cn.dx != left || cn.dy != top) {
-          bool xExist =
-              (cn.dx <= left && left < cn.dx + w) || (left <= cn.dx && cn.dx < left + boxW);
-          bool yExist = (cn.dy <= top && top < cn.dy + h) || (top <= cn.dy && cn.dy < top + boxH);
+          bool xExist = (cn.dx <= left && left < cn.dx + w) ||
+              (left <= cn.dx && cn.dx < left + boxW);
+          bool yExist = (cn.dy <= top && top < cn.dy + h) ||
+              (top <= cn.dy && cn.dy < top + boxH);
 
           if (xExist && yExist) {
             overlap = true;
@@ -384,7 +395,8 @@ class DragDropCubit extends Cubit<DragDropState?> {
       wm = newWM;
     }
 
-    sections[sectionIndex].boxes[boxIndex] = box.copyWith(height: h, width: w, hm: hm, wm: wm);
+    sections[sectionIndex].boxes[boxIndex] =
+        box.copyWith(height: h, width: w, hm: hm, wm: wm);
     _uState();
   }
 }
