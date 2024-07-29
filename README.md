@@ -1,6 +1,6 @@
 # Flutter Drag & Drop in a GridView Layout 🚀
 
-A Flutter drag and drop project in a grid view layout
+A Flutter project showcasing drag-and-drop functionality within a grid view layout.
 
 ## Features
 
